@@ -119,6 +119,13 @@ async def detect_language(
         "language_code": detected_lang_code,
         "confidence": confidence,
     }
+ 
+@app.get("/transcription/status", tags=["Endpoints"])
+async def transcription_status():
+    """
+    Return whether a transcription is currently running.
+    """
+    return {"active": asr_model.transcription_active}
 
 
 @click.command()
