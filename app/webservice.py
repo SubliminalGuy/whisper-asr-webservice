@@ -11,6 +11,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from whisper import tokenizer
+import asyncio
 
 from app.config import CONFIG
 from app.factory.asr_model_factory import ASRModelFactory
@@ -88,16 +89,22 @@ async def asr(
     ),
     output: Union[str, None] = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
 ):
-    result = asr_model.transcribe(
-        load_audio(audio_file.file, encode),
-        task,
-        language,
-        initial_prompt,
-        vad_filter,
-        word_timestamps,
-        {"diarize": diarize, "min_speakers": min_speakers, "max_speakers": max_speakers},
-        output,
-    )
+    # Run transcription in a background thread to keep the event loop responsive
+    def _run_transcription():
+        audio = load_audio(audio_file.file, encode)
+        return asr_model.transcribe(
+            audio,
+            task,
+            language,
+            initial_prompt,
+            vad_filter,
+            word_timestamps,
+            {"diarize": diarize, "min_speakers": min_speakers, "max_speakers": max_speakers},
+            output,
+        )
+    # offload blocking transcription to a thread
+    result = await asyncio.to_thread(_run_transcription)
+    # stream the transcription result back to the client
     return StreamingResponse(
         result,
         media_type="text/plain",
