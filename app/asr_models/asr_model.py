@@ -19,8 +19,7 @@ class ASRModel(ABC):
     last_activity_time = time.time()
 
     def __init__(self):
-        # Flag indicating if a transcription is currently running
-        self.transcription_active = False
+        pass
 
     @abstractmethod
     def load_model(self):

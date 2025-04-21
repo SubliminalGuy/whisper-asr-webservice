@@ -33,8 +33,6 @@ class OpenAIWhisperASR(ASRModel):
         options: Union[dict, None],
         output,
     ):
-        # Mark transcription as active
-        self.transcription_active = True
         # Update last activity timestamp
         self.last_activity_time = time.time()
 
@@ -55,8 +53,6 @@ class OpenAIWhisperASR(ASRModel):
         output_file = StringIO()
         self.write_result(result, output_file, output)
         output_file.seek(0)
-        # Mark transcription as completed
-        self.transcription_active = False
 
         return output_file
 
