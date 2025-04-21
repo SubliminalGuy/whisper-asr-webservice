@@ -125,7 +125,8 @@ async def transcription_status():
     """
     Return whether a transcription is currently running.
     """
-    return {"active": asr_model.transcription_active}
+    # Use the model lock to check if a transcription is currently running
+    return {"active": asr_model.is_transcribing}
 
 
 @click.command()

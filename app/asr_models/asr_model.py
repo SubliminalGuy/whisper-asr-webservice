@@ -75,3 +75,20 @@ class ASRModel(ABC):
         gc.collect()
         self.model = None
         print("Model unloaded due to timeout")
+    
+    @property
+    def is_transcribing(self) -> bool:
+        """
+        Returns True if a transcription is currently running.
+        """
+        return self.model_lock.locked()
+    
+    @property
+    def is_model_loaded(self) -> bool:
+        """
+        Returns True if the model is loaded in memory.
+        """
+        model_attr = self.model
+        if isinstance(model_attr, dict):
+            return model_attr.get('whisperx') is not None
+        return model_attr is not None
