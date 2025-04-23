@@ -96,7 +96,7 @@ async def asr(
     # Get the current working directory
     current_directory = os.getcwd()
     # construct file path
-    audio_path = os.path.join(f'{current_directory}/audio_files', file_name)
+    audio_path = os.path.join(f'{current_directory}/files', file_name)
 
     # Print the current working directory
     print("file path", audio_path)
