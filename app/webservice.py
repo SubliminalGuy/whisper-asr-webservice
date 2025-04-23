@@ -1,5 +1,6 @@
 import importlib.metadata
 import os
+import io
 from os import path
 from typing import Annotated, Optional, Union
 from urllib.parse import quote
@@ -54,8 +55,9 @@ async def index():
 
 
 @app.post("/asr", tags=["Endpoints"])
+
 async def asr(
-    audio_file: UploadFile = File(...),  # noqa: B008
+    file_name: str = Query(..., description="path to Audio or video file to transcribe"),
     encode: bool = Query(default=True, description="Encode audio first through ffmpeg"),
     task: Union[str, None] = Query(default="transcribe", enum=["transcribe", "translate"]),
     language: Union[str, None] = Query(default=None, enum=LANGUAGE_CODES),
@@ -89,9 +91,21 @@ async def asr(
     ),
     output: Union[str, None] = Query(default="txt", enum=["txt", "vtt", "srt", "tsv", "json"]),
 ):
+
+    print("filename", file_name)
+    # Get the current working directory
+    current_directory = os.getcwd()
+    # construct file path
+    audio_path = os.path.join(f'{current_directory}/audio_files', file_name)
+
+    # Print the current working directory
+    print("file path", audio_path)
+
     # Run transcription in a background thread to keep the event loop responsive
     def _run_transcription():
-        audio = load_audio(audio_file.file, encode)
+
+        audio = load_audio(open(audio_path, 'rb'), encode)
+
         return asr_model.transcribe(
             audio,
             task,
@@ -110,7 +124,7 @@ async def asr(
         media_type="text/plain",
         headers={
             "Asr-Engine": CONFIG.ASR_ENGINE,
-            "Content-Disposition": f'attachment; filename="{quote(audio_file.filename)}.{output}"',
+            "Content-Disposition": f'attachment; filename="{quote(file_name)}.{output}"',
         },
     )
 
