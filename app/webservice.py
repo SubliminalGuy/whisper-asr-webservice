@@ -98,8 +98,8 @@ async def asr(
     # construct file path
     audio_path = os.path.join(f'{current_directory}/files', file_name)
 
-    # Print the current working directory
-    print("file path", audio_path)
+    # # Print the current working directory
+    # print("file path", audio_path)
 
     # Run transcription in a background thread to keep the event loop responsive
     def _run_transcription():
