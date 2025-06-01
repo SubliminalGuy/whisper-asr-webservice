@@ -14,7 +14,7 @@ docker run -d -p 9000:9000 \
   --env-file ./.env \
   --gpus all \
   -v $PWD/cache:/data/whisper \
-  -v ISILON_transcript_files:/files \
+  -v ISILON_transcript_files:/app/files \
   image_name
 ```
 
@@ -31,7 +31,7 @@ Key configuration options (see .env.example for default values):
 
 | Name            | Values                                         | Description                                                    |
 |-----------------|------------------------------------------------|----------------------------------------------------------------|
-| audio_file      | File                                           | Audio or video file to transcribe                              |
+| file_name     | `text`                                          | Basename of Audio or video file to transcribe                              |
 | output          | `text` (default), `json`, `vtt`, `srt`, `tsv` | Output format                                                  |
 | task            | `transcribe`, `translate`                      | Task type - transcribe in source language or translate to English |
 | language        | `en` (default is auto recognition)             | Source language code (see supported languages)                 |
