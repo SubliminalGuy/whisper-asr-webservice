@@ -30,6 +30,10 @@ ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
 WORKDIR /app
 
+RUN mkdir ./files
+RUN mkdir ./data
+RUN mkdir -p ./data/whisper
+
 COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.in-project true
