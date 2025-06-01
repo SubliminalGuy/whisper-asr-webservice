@@ -15,6 +15,7 @@ ENV PATH="${PATH}:${POETRY_VENV}/bin"
 WORKDIR /app
 
 RUN mkdir ./files
+RUN mkdir ./data/whisper
 
 COPY . /app
 COPY --from=ffmpeg /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
