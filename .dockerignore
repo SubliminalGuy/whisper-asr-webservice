@@ -2,3 +2,5 @@
 .venv
 venv
 /audio_files
+.env.example
+.env
