@@ -44,3 +44,4 @@ poetry/core/*
 public
 
 /audio_files
+.env
