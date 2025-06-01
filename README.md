@@ -51,6 +51,21 @@ For complete documentation, visit:
 
 [github.com](https://github.com/SYSTRAN/faster-whisper?tab=readme-ov-file#gpu)
 
+
+## Info About Speaker Diarization (Detect Different Speakers)
+
+Set ASR_ENGINE=whisperx in .env-file
+
+A hugging_face account and a token have to be created (https://huggingface.co/settings/tokens)
+
+You need to get permission for two models:
+
+[Speaker Diarization](https://huggingface.co/pyannote/speaker-diarization-3.1)
+
+[Segmentation]([Segmentation](https://huggingface.co/pyannote/segmentation-3.0))
+
+Also see **Request URL Query Params** in this README
+
 ## Credits
 
 - This software uses libraries from the [FFmpeg](http://ffmpeg.org) project under the [LGPLv2.1](http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
