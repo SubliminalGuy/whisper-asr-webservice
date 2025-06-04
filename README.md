@@ -14,7 +14,7 @@ docker run -d -p 9000:9000 \
   --env-file ./.env \
   --gpus all \
   -v $PWD/cache:/data/whisper \
-  -v ISILON_transcript_files:/app/files \
+  -v "\\sp-fbp-ist01\vpms\outgest\OU2_File_Download\TRNS":/app/files \
   image_name
 ```
 
